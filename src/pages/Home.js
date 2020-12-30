@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, {useState} from 'react'
 import MainPageLayout from '../components/MainPageLayout';
+import ShowGrid from '../components/shows/ShowGrid';
+import ActorGrid from '../components/actors/ActorGrid';
 
 import {getApi} from "../misc/Config"
 
@@ -8,6 +10,7 @@ function Home() {
     // eslint-disable-next-line no-unused-vars
     const [input, setInput] = useState('');
     const [apiResult, setApiResult] = useState(null);
+    const [rdBtnInput, setRdBtnInput] = useState('shows');
 
     const onInputChange = (ev) => {
         setInput(ev.target.value);
@@ -15,7 +18,7 @@ function Home() {
 
     const onSearchBtnClick = () => {
 
-        getApi(`search/shows?q=${input}`).then((response) => {
+        getApi(`search/${rdBtnInput}?q=${input}`).then((response) => {
             setApiResult(response);
         })
         
@@ -34,18 +37,35 @@ function Home() {
         }
 
         if(apiResult && apiResult.length > 0){
-            return (<div>
-                {apiResult.map((item) => <div key = {item.show.id}> {item.show.name}</div>
-                )}
-            </div>);
+            return apiResult[0].show  ? <ShowGrid data = {apiResult}/> : <ActorGrid data = {apiResult}/>;
         }
 
         return null;
     }
 
+    const rdBtnOnChange = (ev) => {
+        setRdBtnInput(ev.target.value);
+    }
+
+    const isSearchShow = rdBtnInput === "shows";
+
+
+
     return (
         <MainPageLayout>
-            <input type = "text" onChange = {onInputChange} onKeyDown = {onInputKeyDown} value= {input}/>
+            <input type = "text" placeholder = "Search for something" onChange = {onInputChange} onKeyDown = {onInputKeyDown} value= {input}/>
+
+            <div>
+                <label htmlFor = "shows-btn" >
+                    Shows
+                    <input id = "shows-btn" type= "radio" value = "shows" onChange = {rdBtnOnChange} checked = {isSearchShow}/>
+                </label>
+                <label htmlFor = "people-btn" >
+                    Actors
+                    <input id = "people-btn" type= "radio" value = "people" onChange = {rdBtnOnChange} checked = {!isSearchShow}/>
+                </label>
+            </div>
+
             <button type = "button" onClick = {onSearchBtnClick}>Search</button>
 
             {renderResults()}
