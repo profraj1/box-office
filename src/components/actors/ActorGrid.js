@@ -1,10 +1,11 @@
 import React from 'react'
 import ActorList from './ActorList'
 import DEFAULT_IMG from '../../images/imageNotFound.png'
+import { FlexGrid } from '../Styled'
 
 const Actor = ({ data }) => {
     return (
-        <div>
+        <FlexGrid>
         {
             data.map(({person}) => { 
             return (<ActorList  key = {person.id} 
@@ -17,7 +18,7 @@ const Actor = ({ data }) => {
                 gender = {person.gender}/>)
             })
         }
-    </div>
+    </FlexGrid>
     )
 }
 

@@ -1,11 +1,14 @@
 import React from 'react'
 import ShowList from './ShowList'
 import DEFAULT_IMG from '../../images/imageNotFound.png'
+import { FlexGrid } from '../Styled'
+
+
 
 const ShowGrid = ({ data }) => {
 
     return (
-        <div>
+        <FlexGrid>
             {
                 data.map(({show}) => { 
                 return (<ShowList  key = {show.id} 
@@ -15,7 +18,7 @@ const ShowGrid = ({ data }) => {
                     summary = {show.summary}/>)
                 })
             }
-        </div>
+        </FlexGrid>
     )
 }
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {StyledShowList} from "./ShowList.styled"
 
 const ShowList = ({id, name, image, summary}) => {
 
@@ -8,18 +9,18 @@ const ShowList = ({id, name, image, summary}) => {
     : 'No Description';
 
     return (
-        <div>
+        <StyledShowList>
             <div>
-                <img src = {image} alt = "show" />
+                <img className= "img-wrapper" src = {image} alt = "show" />
             </div>
             <h1> {name} </h1>
             <p>{summaryAsText}</p>
 
-            <div>
+            <div className="btns">
                 <Link to = {`/show/${id}`}> Read More</Link>
                 <button type = "button"> Add to Favourite</button>
             </div>
-        </div>
+        </StyledShowList>
     )
 }
 
